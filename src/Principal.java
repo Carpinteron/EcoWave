@@ -1,3 +1,8 @@
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import panamahitek.Arduino.PanamaHitek_Arduino;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -7,21 +12,18 @@
  *
  * @author Natalia, Isabella, Paula, Nicolás, Roger y Luis
  */
-import comunicacionserial.ArduinoExcepcion;
-import comunicacionserial.ComunicacionSerial_Arduino;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-public class Principal extends javax.swing.JFrame {
 
-    ComunicacionSerial_Arduino conexion = new ComunicacionSerial_Arduino();
+public class Principal extends javax.swing.JFrame {
+    PanamaHitek_Arduino Arduino = new PanamaHitek_Arduino();
     public Principal() {
         initComponents();
+        
         try {
-            //esto es para la conexion
-            conexion.arduinoTX("COM5", 9600);
-        } catch (ArduinoExcepcion ex) {
+            Arduino.arduinoTX("COM6", 9600);
+        } catch (Exception ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
+      
         
     }
 
@@ -72,21 +74,21 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            conexion.sendData("1");
-        } catch (ArduinoExcepcion ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            conexion.sendData("2");
-        } catch (ArduinoExcepcion ex) {
+            Arduino.sendData("2");
+        } catch (Exception ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+            Arduino.sendData("1");
+        } catch (Exception ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
