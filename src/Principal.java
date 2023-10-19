@@ -10,7 +10,7 @@ import panamahitek.Arduino.PanamaHitek_Arduino;
 
 /**
  *
- * @author Natalia, Isabella, Paula, Nicolás, Roger y Luis
+ * @author Natalia, Isabella, Paula, Nicolás, Roger, Andrés, Jose, Pipe y Luis
  */
 
 public class Principal extends javax.swing.JFrame {
