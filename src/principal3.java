@@ -60,16 +60,22 @@ public class principal3 extends javax.swing.JFrame {
     private void initComponents() {
 
         Distancia = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         Distancia.setText("hj");
 
+        jLabel1.setText("Sensor de Distancia");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(139, 139, 139)
+                .addComponent(jLabel1)
+                .addContainerGap(159, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(181, 181, 181)
@@ -78,7 +84,10 @@ public class principal3 extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(74, 74, 74)
+                .addComponent(jLabel1)
+                .addContainerGap(210, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(142, 142, 142)
@@ -126,5 +135,6 @@ public class principal3 extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Distancia;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
