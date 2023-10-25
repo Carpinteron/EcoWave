@@ -463,7 +463,7 @@ public class FormStaff extends javax.swing.JPanel {
         jLabel68.setText("NRC: 1949");
         jLabel68.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
-        jLabel69.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/Naty.png"))); // NOI18N
+        jLabel69.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/Carrero.png"))); // NOI18N
 
         javax.swing.GroupLayout panelShadow12Layout = new javax.swing.GroupLayout(panelShadow12);
         panelShadow12.setLayout(panelShadow12Layout);
