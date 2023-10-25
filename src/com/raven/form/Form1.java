@@ -1,11 +1,11 @@
 package com.raven.form;
 
-
 import com.raven.chart.ModelChart;
 import comunicacionserial.ArduinoExcepcion;
 import comunicacionserial.ComunicacionSerial_Arduino;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
@@ -27,10 +27,12 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 public class Form1 extends javax.swing.JPanel {
-    
+
     // Variables
     static JFreeChart chart;
     static ChartPanel panel;
+    static JFreeChart chart2;
+    static ChartPanel panel2;
     int cont = 0;
     Thread hilo;
     boolean On = true;
@@ -49,7 +51,6 @@ public class Form1 extends javax.swing.JPanel {
                         consola.setText("\n" + d);//si solo quiero ver uno
                         //consola.setText(consola.getText()+"\n"+d); si quiero ver todas
                     }
-                    
 
                 }
             } catch (SerialPortException ex) {
@@ -60,6 +61,7 @@ public class Form1 extends javax.swing.JPanel {
         }
 
     };
+
     //METODOS
     private void ReiniciarHilo() {
         statusHilo = true;
@@ -70,8 +72,8 @@ public class Form1 extends javax.swing.JPanel {
                 while (statusHilo) {
 
                     try {
-                        crearGrafica();
-                        Thread.sleep(2000);
+                        crearGraficas();
+                        Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(Form1.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -81,20 +83,28 @@ public class Form1 extends javax.swing.JPanel {
         };
     }
     XYSeries dataset = new XYSeries("Registros Distancias EcoWave");
+// Nuevos parámetros para la segunda función seno
+    double amplitud = 5.0;  // Cambia el valor según tus necesidades
+    double frecuenciaAngular = 0.05;  // Cambia el valor según tus necesidades
+    double anguloDeFase=0.0;
+    XYSeries dataset2 = new XYSeries("Seno ");
 
-    private void crearGrafica() {
+    private void crearGraficas() {
         //https://www.tutorialspoint.com/jfreechart/jfreechart_xy_chart.htm
         String[] lecturas = consola.getText().split("\n");
         if (lecturas.length > 0) {
             if (!lecturas[lecturas.length - 1].trim().equals("")) {
                 if (Double.parseDouble(lecturas[lecturas.length - 1]) < 50 && Double.parseDouble(lecturas[lecturas.length - 1]) > -10) {
                     dataset.add(cont, Double.parseDouble(lecturas[lecturas.length - 1]));
+                    // Calcular el ángulo de fase
+                    double distancia = amplitud * Math.sin(frecuenciaAngular * cont + anguloDeFase);
+                    dataset2.add(cont, distancia);
+                    cont++;
                     cont++;
                 }
             }
 
         }
-
         XYSeriesCollection collection = new XYSeriesCollection();
         collection.addSeries(dataset);
 
@@ -121,63 +131,72 @@ public class Form1 extends javax.swing.JPanel {
         jPanel1.removeAll();
         jPanel1.add(panel);
         jPanel1.repaint();
-        panelShadow4.setPreferredSize(new java.awt.Dimension( 1011, 473));
+        panelShadow4.setPreferredSize(new java.awt.Dimension(1011, 473));
         panelShadow4.add(jPanel1);
         panelShadow4.revalidate();
         panelShadow4.repaint();
 
+        //PARA SENO
+        // C
+        XYSeriesCollection collection2 = new XYSeriesCollection();
+        collection2.addSeries(dataset2);
+
+        chart2 = ChartFactory.createXYLineChart(
+                "Función senoidal ",
+                "Tiempo (s)",
+                "Distancia (cm)",
+                collection2,
+                PlotOrientation.VERTICAL,
+                true,
+                true,
+                false
+        );
+
+        panel2 = new ChartPanel(chart2, true, true, true, false, true);
+        panel2.setPreferredSize(new java.awt.Dimension(560, 367));
+
+        gsen.setLayout(null);
+        panel2.setBounds(0, 0, gsen.getWidth(), gsen.getHeight());
+        gsen.removeAll();
+        gsen.add(panel2);
+        gsen.repaint();
+        panelShadow5.setPreferredSize(new java.awt.Dimension(1011, 473));
+        panelShadow5.add(gsen);
+        panelShadow5.revalidate();
+        panelShadow5.repaint();
+
     }
-     
-    private void DatosinSensor(){
+
+    private void DatosinSensor() {
         // Crear un temporizador para generar datos cada segundo
         Timer timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 // Generar un número aleatorio en el rango de 20 a 22
-                double randomValue = 20 + new Random().nextDouble() * 2;
+                double randomValue = 18 + new Random().nextDouble() * 2;
 
                 // Formatear el número como "20.22" usando el formato con punto decimal
                 DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
                 DecimalFormat df = new DecimalFormat("0.00", decimalFormatSymbols);
                 String sensorData = df.format(randomValue);
                 System.out.println(sensorData);
-                consola.setText("\n" +sensorData);
+                consola.setText("\n" + sensorData);
             }
         }, 0, 1000); // Generar datos cada segundo (1000 milisegundos)
-    
-
     }
+
     /**
-     OPCIONAL
-     * BOTON GRAFICAR:
-     * btnGraficar.setEnabled(false);
-        btnPausa.setEnabled(true);
-        btnReset.setEnabled(true);
-        On = true;
-        ReiniciarHilo();
-        hilo.start();
-     *BOTON PAUSAR:
-     * btnReanudar.setEnabled(true);
-            btnPausa.setEnabled(false);
-            consola.setEnabled(false);
-            On = false;
-            hilo.stop();
-            statusHilo = false;
-     * BOTON RESET:
-     * btnGraficar.setEnabled(true);
-            btnPausa.setEnabled(false);
-            btnReset.setEnabled(false);
-            consola.setEnabled(false);
-            On = false;
-            hilo.stop();
-            statusHilo = false;
-     * BOTON REANUDAR:
-     *On = true;
-        ReiniciarHilo();
-            hilo.start();
-        btnReanudar.setEnabled(false);
-        btnPausa.setEnabled(true);   
+     * OPCIONAL BOTON GRAFICAR: btnGraficar.setEnabled(false);
+     * btnPausa.setEnabled(true); btnReset.setEnabled(true); On = true;
+     * ReiniciarHilo(); hilo.start(); BOTON PAUSAR:
+     * btnReanudar.setEnabled(true); btnPausa.setEnabled(false);
+     * consola.setEnabled(false); On = false; hilo.stop(); statusHilo = false;
+     * BOTON RESET: btnGraficar.setEnabled(true); btnPausa.setEnabled(false);
+     * btnReset.setEnabled(false); consola.setEnabled(false); On = false;
+     * hilo.stop(); statusHilo = false; BOTON REANUDAR: On = true;
+     * ReiniciarHilo(); hilo.start(); btnReanudar.setEnabled(false);
+     * btnPausa.setEnabled(true);
      */
     public Form1() {
         initComponents();
@@ -185,36 +204,25 @@ public class Form1 extends javax.swing.JPanel {
         gaugeChart1.setValueWithAnimation(75);
         gaugeChart2.setValueWithAnimation(90);
         gaugeChart3.setValueWithAnimation(45);
-        
+
         init();
         //Activamos el llamado para recibir datos del arduino
         /**
-        try {
-            ino.arduinoRXTX("COM6", 9600, listener);
-        } catch (ArduinoExcepcion ex) {
-            Logger.getLogger(Form1.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        **/
-        
+         * try { ino.arduinoRXTX("COM6", 9600, listener); } catch
+         * (ArduinoExcepcion ex) {
+         * Logger.getLogger(Form1.class.getName()).log(Level.SEVERE, null, ex);
+         * }
+         *
+         */
+
     }
 
     private void init() {
-        barChart.addLegend("Income", new Color(12, 84, 175), new Color(0, 108, 247));
-        barChart.addLegend("Expense", new Color(54, 4, 143), new Color(104, 49, 200));
-        barChart.addLegend("Profit", new Color(5, 125, 0), new Color(95, 209, 69));
-        barChart.addLegend("Cost", new Color(186, 37, 37), new Color(241, 100, 120));
-        barChart.addData(new ModelChart("January", new double[]{500, 200, 80, 89}));
-        barChart.addData(new ModelChart("February", new double[]{600, 750, 90, 150}));
-        barChart.addData(new ModelChart("March", new double[]{200, 350, 460, 900}));
-        barChart.addData(new ModelChart("April", new double[]{480, 150, 750, 700}));
-        barChart.addData(new ModelChart("May", new double[]{350, 540, 300, 150}));
-        barChart.addData(new ModelChart("June", new double[]{190, 280, 81, 200}));
-        barChart.start();
         DatosinSensor();
         On = true;
         ReiniciarHilo();
         hilo.start();
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -249,7 +257,7 @@ public class Form1 extends javax.swing.JPanel {
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         panelShadow5 = new com.raven.swing.PanelShadow();
-        barChart = new com.raven.chart.Chart();
+        gsen = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
 
         panelShadow1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -281,7 +289,7 @@ public class Form1 extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(panelShadow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                    .addComponent(gaugeChart1, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(gaugeChart1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelShadow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelShadow1Layout.createSequentialGroup()
@@ -357,7 +365,7 @@ public class Form1 extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                    .addComponent(gaugeChart2, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(gaugeChart2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelShadow2Layout.createSequentialGroup()
@@ -448,7 +456,7 @@ public class Form1 extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(panelShadow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                    .addComponent(gaugeChart3, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(gaugeChart3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelShadow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelShadow3Layout.createSequentialGroup()
@@ -527,17 +535,30 @@ public class Form1 extends javax.swing.JPanel {
 
         panelShadow5.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        javax.swing.GroupLayout gsenLayout = new javax.swing.GroupLayout(gsen);
+        gsen.setLayout(gsenLayout);
+        gsenLayout.setHorizontalGroup(
+            gsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 812, Short.MAX_VALUE)
+        );
+        gsenLayout.setVerticalGroup(
+            gsenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 422, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout panelShadow5Layout = new javax.swing.GroupLayout(panelShadow5);
         panelShadow5.setLayout(panelShadow5Layout);
         panelShadow5Layout.setHorizontalGroup(
             panelShadow5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(barChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panelShadow5Layout.createSequentialGroup()
+                .addComponent(gsen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(159, Short.MAX_VALUE))
         );
         panelShadow5Layout.setVerticalGroup(
             panelShadow5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelShadow5Layout.createSequentialGroup()
-                .addComponent(barChart, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+                .addComponent(gsen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 11, Short.MAX_VALUE))
         );
 
         jLabel24.setFont(new java.awt.Font("sansserif", 1, 15)); // NOI18N
@@ -588,11 +609,11 @@ public class Form1 extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.raven.chart.Chart barChart;
     private javax.swing.JLabel consola;
     private com.raven.chart.GaugeChart gaugeChart1;
     private com.raven.chart.GaugeChart gaugeChart2;
     private com.raven.chart.GaugeChart gaugeChart3;
+    private javax.swing.JPanel gsen;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
