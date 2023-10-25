@@ -6,6 +6,7 @@ import comunicacionserial.ComunicacionSerial_Arduino;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
@@ -14,6 +15,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
@@ -62,6 +66,19 @@ public class Form1 extends javax.swing.JPanel {
         }
 
     };
+    //SUBRUTINA PARA APLICAR SONIDO
+    private void sonido(String cadena) {
+        try {
+            Clip clip = AudioSystem.getClip();
+            URL url = getClass().getResource(cadena);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+            clip.open(audioIn);
+            clip.start();
+
+        } catch (Exception e) {
+            //System.err.println(e.getMessage());
+        }
+    }
 
     //METODOS
     private void ReiniciarHilo() {
@@ -117,6 +134,12 @@ public class Form1 extends javax.swing.JPanel {
                     double porcentaje = ((DISTANCIAOK2 - minimo) / (maximo - minimo)) * 100.0;
                     int valorInt = (int) Math.round(porcentaje);
                     gaugeChart1.setValueWithAnimation(valorInt);
+                    if (valorInt>90 && valorInt<=100){
+                        sonido("/Sonido/buzzer.wav");
+                        consola.setForeground(Color.RED);//AQUI DEBEN IR LAS 8 LEDS
+                    }else{
+                        consola.setForeground(new Color (80,116,253));
+                    }
 
                 }
             }
@@ -222,11 +245,6 @@ public class Form1 extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
 
-        gaugeChart2.setValueWithAnimation(90);//1
-        gaugeChart8.setValueWithAnimation(45);//2
-        gaugeChart5.setValueWithAnimation(20);//3
-        gaugeChart6.setValueWithAnimation(45);//4
-        gaugeChart7.setValueWithAnimation(45);//5
 
         init();
         //Activamos el llamado para recibir datos del arduino
@@ -259,10 +277,10 @@ public class Form1 extends javax.swing.JPanel {
         consola = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         panelShadow2 = new com.raven.swing.PanelShadow();
-        gaugeChart2 = new com.raven.chart.GaugeChart();
         jLabel8 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         panelShadow4 = new com.raven.swing.PanelShadow();
         jPanel1 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
@@ -271,26 +289,26 @@ public class Form1 extends javax.swing.JPanel {
         gsen = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         panelShadow7 = new com.raven.swing.PanelShadow();
-        gaugeChart5 = new com.raven.chart.GaugeChart();
         jLabel12 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         labelñe = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         panelShadow8 = new com.raven.swing.PanelShadow();
-        gaugeChart6 = new com.raven.chart.GaugeChart();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         panelShadow10 = new com.raven.swing.PanelShadow();
-        gaugeChart8 = new com.raven.chart.GaugeChart();
         jLabel30 = new javax.swing.JLabel();
         jLabel36 = new javax.swing.JLabel();
         jLabel37 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         panelShadow9 = new com.raven.swing.PanelShadow();
-        gaugeChart7 = new com.raven.chart.GaugeChart();
         jLabel29 = new javax.swing.JLabel();
         jLabel34 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         panelShadow1.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
@@ -298,9 +316,9 @@ public class Form1 extends javax.swing.JPanel {
         gaugeChart1.setColor2(new java.awt.Color(69, 71, 252));
         gaugeChart1.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
 
-        jLabel9.setFont(new java.awt.Font("sansserif", 1, 8)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("sansserif", 1, 10)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(133, 133, 133));
-        jLabel9.setText("% con respecto a distancia maxima");
+        jLabel9.setText("% con respecto a la distancia máxima");
         jLabel9.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
@@ -356,14 +374,10 @@ public class Form1 extends javax.swing.JPanel {
 
         panelShadow2.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        gaugeChart2.setColor1(new java.awt.Color(255, 255, 255));
-        gaugeChart2.setColor2(new java.awt.Color(119, 26, 217));
-        gaugeChart2.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-
         jLabel8.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(97, 97, 97));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Frecuencia");
+        jLabel8.setText(" Frecuencia");
 
         jLabel13.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(133, 133, 133));
@@ -372,9 +386,11 @@ public class Form1 extends javax.swing.JPanel {
         jLabel13.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel14.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(150, 56, 248));
+        jLabel14.setForeground(new java.awt.Color(204, 51, 255));
         jLabel14.setText("0.05");
         jLabel14.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/frecuencia.png"))); // NOI18N
 
         javax.swing.GroupLayout panelShadow2Layout = new javax.swing.GroupLayout(panelShadow2);
         panelShadow2.setLayout(panelShadow2Layout);
@@ -382,10 +398,13 @@ public class Form1 extends javax.swing.JPanel {
             panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelShadow2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                    .addComponent(gaugeChart2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelShadow2Layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelShadow2Layout.createSequentialGroup()
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelShadow2Layout.createSequentialGroup()
                         .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -398,15 +417,17 @@ public class Form1 extends javax.swing.JPanel {
             panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelShadow2Layout.createSequentialGroup()
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(gaugeChart2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelShadow2Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(42, 42, 42))
+                    .addGroup(panelShadow2Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         panelShadow4.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -475,13 +496,8 @@ public class Form1 extends javax.swing.JPanel {
         panelShadow7.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panelShadow7.setPreferredSize(new java.awt.Dimension(329, 188));
 
-        gaugeChart5.setColor1(new java.awt.Color(255, 255, 255));
-        gaugeChart5.setColor2(new java.awt.Color(69, 71, 252));
-        gaugeChart5.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
-
         jLabel12.setFont(new java.awt.Font("sansserif", 1, 8)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(133, 133, 133));
-        jLabel12.setText("% con respecto a distancia maxima");
         jLabel12.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel3.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
@@ -490,7 +506,7 @@ public class Form1 extends javax.swing.JPanel {
         jLabel3.setText("Amplitud");
 
         labelñe.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
-        labelñe.setForeground(new java.awt.Color(80, 116, 253));
+        labelñe.setForeground(new java.awt.Color(0, 204, 102));
         labelñe.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         labelñe.setText("  5.0");
         labelñe.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
@@ -500,15 +516,20 @@ public class Form1 extends javax.swing.JPanel {
         jLabel25.setText("                  Cm ");
         jLabel25.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/amplitud.png"))); // NOI18N
+
         javax.swing.GroupLayout panelShadow7Layout = new javax.swing.GroupLayout(panelShadow7);
         panelShadow7.setLayout(panelShadow7Layout);
         panelShadow7Layout.setHorizontalGroup(
             panelShadow7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelShadow7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelShadow7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                    .addComponent(gaugeChart5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(panelShadow7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelShadow7Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelShadow7Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelShadow7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -516,30 +537,27 @@ public class Form1 extends javax.swing.JPanel {
                         .addGroup(panelShadow7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelñe)
                             .addComponent(jLabel12))
-                        .addGap(0, 38, Short.MAX_VALUE))))
+                        .addGap(0, 97, Short.MAX_VALUE))))
         );
         panelShadow7Layout.setVerticalGroup(
             panelShadow7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelShadow7Layout.createSequentialGroup()
                 .addComponent(jLabel3)
-                .addGap(7, 7, 7)
-                .addGroup(panelShadow7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(panelShadow7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelShadow7Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
                         .addGroup(panelShadow7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel25)
                             .addComponent(labelñe, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jLabel12)
-                        .addGap(6, 6, 6))
-                    .addComponent(gaugeChart5, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel12))
+                    .addGroup(panelShadow7Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
         panelShadow8.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        gaugeChart6.setColor1(new java.awt.Color(255, 255, 255));
-        gaugeChart6.setColor2(new java.awt.Color(119, 26, 217));
-        gaugeChart6.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
 
         jLabel26.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(97, 97, 97));
@@ -549,13 +567,15 @@ public class Form1 extends javax.swing.JPanel {
         jLabel27.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel27.setForeground(new java.awt.Color(133, 133, 133));
         jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel27.setText("                   Hz           ");
+        jLabel27.setText("                   Rad/Seg           ");
         jLabel27.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel28.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
-        jLabel28.setForeground(new java.awt.Color(150, 56, 248));
+        jLabel28.setForeground(new java.awt.Color(102, 0, 102));
         jLabel28.setText("0.05");
         jLabel28.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/angular.png"))); // NOI18N
 
         javax.swing.GroupLayout panelShadow8Layout = new javax.swing.GroupLayout(panelShadow8);
         panelShadow8.setLayout(panelShadow8Layout);
@@ -565,10 +585,7 @@ public class Form1 extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(panelShadow8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelShadow8Layout.createSequentialGroup()
-                        .addComponent(jLabel26)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(panelShadow8Layout.createSequentialGroup()
-                        .addComponent(gaugeChart6, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelShadow8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelShadow8Layout.createSequentialGroup()
@@ -576,28 +593,29 @@ public class Form1 extends javax.swing.JPanel {
                                 .addGap(71, 71, 71))
                             .addGroup(panelShadow8Layout.createSequentialGroup()
                                 .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
-                                .addContainerGap())))))
+                                .addContainerGap())))
+                    .addGroup(panelShadow8Layout.createSequentialGroup()
+                        .addComponent(jLabel26)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         panelShadow8Layout.setVerticalGroup(
             panelShadow8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelShadow8Layout.createSequentialGroup()
                 .addComponent(jLabel26)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelShadow8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(gaugeChart6, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelShadow8Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(panelShadow8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                            .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(34, 34, 34))
+                    .addGroup(panelShadow8Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         panelShadow10.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
-        gaugeChart8.setColor1(new java.awt.Color(255, 255, 255));
-        gaugeChart8.setColor2(new java.awt.Color(248, 78, 78));
-        gaugeChart8.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
 
         jLabel30.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel30.setForeground(new java.awt.Color(97, 97, 97));
@@ -611,9 +629,11 @@ public class Form1 extends javax.swing.JPanel {
         jLabel36.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel37.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
-        jLabel37.setForeground(new java.awt.Color(255, 111, 111));
+        jLabel37.setForeground(new java.awt.Color(255, 51, 204));
         jLabel37.setText("24,56");
         jLabel37.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/periodo.png"))); // NOI18N
 
         javax.swing.GroupLayout panelShadow10Layout = new javax.swing.GroupLayout(panelShadow10);
         panelShadow10.setLayout(panelShadow10Layout);
@@ -622,8 +642,8 @@ public class Form1 extends javax.swing.JPanel {
             .addGroup(panelShadow10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelShadow10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                    .addComponent(gaugeChart8, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelShadow10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelShadow10Layout.createSequentialGroup()
@@ -636,23 +656,21 @@ public class Form1 extends javax.swing.JPanel {
             panelShadow10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelShadow10Layout.createSequentialGroup()
                 .addComponent(jLabel30)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelShadow10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(panelShadow10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelShadow10Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(panelShadow10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel36)
                             .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(33, 33, 33))
-                    .addComponent(gaugeChart8, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addGap(39, 39, 39))
+                    .addGroup(panelShadow10Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         panelShadow9.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
         panelShadow9.setPreferredSize(new java.awt.Dimension(323, 187));
-
-        gaugeChart7.setColor1(new java.awt.Color(255, 255, 255));
-        gaugeChart7.setColor2(new java.awt.Color(248, 78, 78));
-        gaugeChart7.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
 
         jLabel29.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel29.setForeground(new java.awt.Color(97, 97, 97));
@@ -662,13 +680,15 @@ public class Form1 extends javax.swing.JPanel {
         jLabel34.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel34.setForeground(new java.awt.Color(133, 133, 133));
         jLabel34.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel34.setText("                        Seg");
+        jLabel34.setText("                 Rad");
         jLabel34.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel35.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
-        jLabel35.setForeground(new java.awt.Color(255, 111, 111));
-        jLabel35.setText("24,56");
+        jLabel35.setForeground(new java.awt.Color(255, 102, 51));
+        jLabel35.setText(" 0.0");
         jLabel35.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/angulo.png"))); // NOI18N
 
         javax.swing.GroupLayout panelShadow9Layout = new javax.swing.GroupLayout(panelShadow9);
         panelShadow9.setLayout(panelShadow9Layout);
@@ -678,7 +698,7 @@ public class Form1 extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(panelShadow9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(gaugeChart7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelShadow9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelShadow9Layout.createSequentialGroup()
@@ -690,15 +710,17 @@ public class Form1 extends javax.swing.JPanel {
             panelShadow9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelShadow9Layout.createSequentialGroup()
                 .addComponent(jLabel29)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelShadow9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(panelShadow9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelShadow9Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(panelShadow9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel34)
                             .addComponent(jLabel35, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(33, 33, 33))
-                    .addComponent(gaugeChart7, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                        .addGap(39, 39, 39))
+                    .addGroup(panelShadow9Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -765,16 +787,13 @@ public class Form1 extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel consola;
     private com.raven.chart.GaugeChart gaugeChart1;
-    private com.raven.chart.GaugeChart gaugeChart2;
-    private com.raven.chart.GaugeChart gaugeChart5;
-    private com.raven.chart.GaugeChart gaugeChart6;
-    private com.raven.chart.GaugeChart gaugeChart7;
-    private com.raven.chart.GaugeChart gaugeChart8;
     private javax.swing.JPanel gsen;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
@@ -789,6 +808,9 @@ public class Form1 extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
