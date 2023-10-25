@@ -2,11 +2,13 @@ package com.raven.main;
 
 import com.raven.event.EventMenu;
 import com.raven.form.Form1;
+import static com.raven.form.Form1.sali;
 import com.raven.form.FormStaff;
 import com.raven.form.SubForm;
 import com.raven.swing.scrollbar.ScrollBarCustom;
 import java.awt.Color;
 import java.awt.Component;
+import javax.sound.sampled.Clip;
 
 public class Main extends javax.swing.JFrame {
 
@@ -18,12 +20,17 @@ public class Main extends javax.swing.JFrame {
             public void selected(int index) {
                 if (index == 0) {
                     showForm(new Form1());
-                } else if (index==1) {
+                } else if (index == 1) {
                     showForm(new FormStaff());
-                }else if (index==4) {
+                    sali=true;
+                } else if (index == 4) {
                     System.exit(0);
-                }else  {
+                    sali=true;
+                    
+                } else {
                     showForm(new SubForm(index));
+                    sali=true;
+                    
                 }
             }
         };

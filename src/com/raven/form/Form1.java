@@ -32,6 +32,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 public class Form1 extends javax.swing.JPanel {
+ private Form1 sonidoManager; // Campo para almacenar la referencia
 
     // Variables
     static JFreeChart chart;
@@ -66,19 +67,26 @@ public class Form1 extends javax.swing.JPanel {
         }
 
     };
-    //SUBRUTINA PARA APLICAR SONIDO
-    private void sonido(String cadena) {
+    
+    //SUBRUTINAS PARA APLICAR SONIDO
+    public static Clip clip;
+    public static boolean sali=false;
+
+    public void reproducirSonido(String cadena) {
+        
         try {
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             URL url = getClass().getResource(cadena);
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
             clip.open(audioIn);
             clip.start();
-
         } catch (Exception e) {
-            //System.err.println(e.getMessage());
+            e.printStackTrace();
         }
+    
     }
+
+    
 
     //METODOS
     private void ReiniciarHilo() {
@@ -134,8 +142,8 @@ public class Form1 extends javax.swing.JPanel {
                     double porcentaje = ((DISTANCIAOK2 - minimo) / (maximo - minimo)) * 100.0;
                     int valorInt = (int) Math.round(porcentaje);
                     gaugeChart1.setValueWithAnimation(valorInt);
-                    if (valorInt>90 && valorInt<=100){
-                        sonido("/Sonido/buzzer.wav");
+                    if (valorInt>90 && valorInt<=100 && sali==false){
+                        reproducirSonido("/Sonido/buzzer.wav");
                         consola.setForeground(Color.RED);//AQUI DEBEN IR LAS 8 LEDS
                     }else{
                         consola.setForeground(new Color (80,116,253));
@@ -242,6 +250,7 @@ public class Form1 extends javax.swing.JPanel {
      * btnPausa.setEnabled(true);
      */
     public Form1() {
+        
         initComponents();
         setOpaque(false);
 
