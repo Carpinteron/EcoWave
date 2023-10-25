@@ -84,7 +84,7 @@ public class Menu extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(200, 200, 200));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Un proyecto por Empresa");
+        jLabel2.setText("Geoexpofísica 2023");
 
         scroll.setBorder(null);
         scroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);

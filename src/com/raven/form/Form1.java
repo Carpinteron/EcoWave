@@ -257,18 +257,18 @@ public class Form1 extends javax.swing.JPanel {
 
         init();
         //Activamos el llamado para recibir datos del arduino
-        /**
-         * try { ino.arduinoRXTX("COM6", 9600, listener); } catch
-         * (ArduinoExcepcion ex) {
-         * Logger.getLogger(Form1.class.getName()).log(Level.SEVERE, null, ex);
-         * }
-         *
-         */
+        
+         try { ino.arduinoRXTX("COM6", 9600, listener); } catch
+         (ArduinoExcepcion ex) {
+         Logger.getLogger(Form1.class.getName()).log(Level.SEVERE, null, ex);
+          }
+         
+         
 
     }
 
     private void init() {
-        DatosinSensor();
+        //DatosinSensor();
         On = true;
         ReiniciarHilo();
         hilo.start();

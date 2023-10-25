@@ -455,7 +455,7 @@ public class FormStaff extends javax.swing.JPanel {
         jLabel67.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel67.setForeground(new java.awt.Color(80, 116, 253));
         jLabel67.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel67.setText("falta");
+        jLabel67.setText("200191603");
         jLabel67.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel68.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N

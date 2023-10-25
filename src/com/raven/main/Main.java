@@ -3,6 +3,7 @@ package com.raven.main;
 import com.raven.event.EventMenu;
 import com.raven.form.Form1;
 import static com.raven.form.Form1.sali;
+import com.raven.form.FormInfo;
 import com.raven.form.FormStaff;
 import com.raven.form.SubForm;
 import com.raven.swing.scrollbar.ScrollBarCustom;
@@ -25,10 +26,12 @@ public class Main extends javax.swing.JFrame {
                 } else if (index == 1) {
                     showForm(new FormStaff());
                     sali=true;
-                } else if (index == 4) {
+                } else if (index == 2) {
+                    showForm(new FormInfo());
+                    sali=true; 
+                }else if (index == 4) {
                     System.exit(0);
-                    sali=true;
-                    
+                    sali=true; 
                 } else {
                     showForm(new SubForm(index));
                     sali=true;
