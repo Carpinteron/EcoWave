@@ -20,6 +20,7 @@ import jssc.SerialPortException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
@@ -95,16 +96,16 @@ public class Form1 extends javax.swing.JPanel {
         if (lecturas.length > 0) {
             if (!lecturas[lecturas.length - 1].trim().equals("")) {
                 if (Double.parseDouble(lecturas[lecturas.length - 1]) < 50 && Double.parseDouble(lecturas[lecturas.length - 1]) > -10) {
-                    double DISTANCIAOK= Double.parseDouble(lecturas[lecturas.length - 1]);
+                    double DISTANCIAOK = Double.parseDouble(lecturas[lecturas.length - 1]);
                     dataset.add(cont, DISTANCIAOK);
-                    // Calcular el ángulo de fase
                     double distancia = amplitud * Math.sin(frecuenciaAngular * cont + anguloDeFase);
+                    System.out.println("distncia seno: "+distancia);
                     dataset2.add(cont, distancia);
                     cont++;
                     //porcentaje 1
                     double minimo = 18;
                     double maximo = 20;
-                    double DISTANCIAOK2=DISTANCIAOK;
+                    double DISTANCIAOK2 = DISTANCIAOK;
                     // Asegurémonos de que el valor esté dentro del rango
                     if (DISTANCIAOK2 < minimo) {
                         DISTANCIAOK2 = minimo;
@@ -167,7 +168,11 @@ public class Form1 extends javax.swing.JPanel {
                 true,
                 false
         );
+        // Obtén el rango del eje Y del gráfico
+        ValueAxis rangeAxis = chart2.getXYPlot().getRangeAxis();
 
+// Configura el rango del eje Y de 0 a 10
+        rangeAxis.setRange(-6.0, 6.0);
         panel2 = new ChartPanel(chart2, true, true, true, false, true);
         panel2.setPreferredSize(new java.awt.Dimension(433, 971));
         gsen.setLayout(null);
@@ -219,9 +224,9 @@ public class Form1 extends javax.swing.JPanel {
 
         gaugeChart2.setValueWithAnimation(90);//1
         gaugeChart8.setValueWithAnimation(45);//2
-        gaugeChart8.setValueWithAnimation(45);//3
-        gaugeChart8.setValueWithAnimation(45);//4
-        gaugeChart8.setValueWithAnimation(45);//5
+        gaugeChart5.setValueWithAnimation(20);//3
+        gaugeChart6.setValueWithAnimation(45);//4
+        gaugeChart7.setValueWithAnimation(45);//5
 
         init();
         //Activamos el llamado para recibir datos del arduino
@@ -487,12 +492,12 @@ public class Form1 extends javax.swing.JPanel {
         labelñe.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
         labelñe.setForeground(new java.awt.Color(80, 116, 253));
         labelñe.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        labelñe.setText("24,50");
+        labelñe.setText("  5.0");
         labelñe.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel25.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(133, 133, 133));
-        jLabel25.setText("                        Cm ");
+        jLabel25.setText("                  Cm ");
         jLabel25.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         javax.swing.GroupLayout panelShadow7Layout = new javax.swing.GroupLayout(panelShadow7);
@@ -759,22 +764,17 @@ public class Form1 extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel consola;
-    private javax.swing.JLabel consola1;
     private com.raven.chart.GaugeChart gaugeChart1;
     private com.raven.chart.GaugeChart gaugeChart2;
-    private com.raven.chart.GaugeChart gaugeChart4;
     private com.raven.chart.GaugeChart gaugeChart5;
     private com.raven.chart.GaugeChart gaugeChart6;
     private com.raven.chart.GaugeChart gaugeChart7;
     private com.raven.chart.GaugeChart gaugeChart8;
     private javax.swing.JPanel gsen;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
@@ -799,7 +799,6 @@ public class Form1 extends javax.swing.JPanel {
     private com.raven.swing.PanelShadow panelShadow2;
     private com.raven.swing.PanelShadow panelShadow4;
     private com.raven.swing.PanelShadow panelShadow5;
-    private com.raven.swing.PanelShadow panelShadow6;
     private com.raven.swing.PanelShadow panelShadow7;
     private com.raven.swing.PanelShadow panelShadow8;
     private com.raven.swing.PanelShadow panelShadow9;
