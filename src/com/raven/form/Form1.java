@@ -86,7 +86,7 @@ public class Form1 extends javax.swing.JPanel {
 // Nuevos parámetros para la segunda función seno
     double amplitud = 5.0;  // Cambia el valor según tus necesidades
     double frecuenciaAngular = 0.05;  // Cambia el valor según tus necesidades
-    double anguloDeFase=0.0;
+    double anguloDeFase = 0.0;
     XYSeries dataset2 = new XYSeries("Seno ");
 
     private void crearGraficas() {
@@ -95,12 +95,28 @@ public class Form1 extends javax.swing.JPanel {
         if (lecturas.length > 0) {
             if (!lecturas[lecturas.length - 1].trim().equals("")) {
                 if (Double.parseDouble(lecturas[lecturas.length - 1]) < 50 && Double.parseDouble(lecturas[lecturas.length - 1]) > -10) {
-                    dataset.add(cont, Double.parseDouble(lecturas[lecturas.length - 1]));
+                    double DISTANCIAOK= Double.parseDouble(lecturas[lecturas.length - 1]);
+                    dataset.add(cont, DISTANCIAOK);
                     // Calcular el ángulo de fase
                     double distancia = amplitud * Math.sin(frecuenciaAngular * cont + anguloDeFase);
                     dataset2.add(cont, distancia);
                     cont++;
-                    cont++;
+                    //porcentaje 1
+                    double minimo = 18;
+                    double maximo = 20;
+                    double DISTANCIAOK2=DISTANCIAOK;
+                    // Asegurémonos de que el valor esté dentro del rango
+                    if (DISTANCIAOK2 < minimo) {
+                        DISTANCIAOK2 = minimo;
+                    } else if (DISTANCIAOK2 > maximo) {
+                        DISTANCIAOK2 = maximo;
+                    }
+
+                    // Calcula el porcentaje
+                    double porcentaje = ((DISTANCIAOK2 - minimo) / (maximo - minimo)) * 100.0;
+                    int valorInt = (int) Math.round(porcentaje);
+                    gaugeChart1.setValueWithAnimation(valorInt);
+
                 }
             }
 
@@ -201,7 +217,7 @@ public class Form1 extends javax.swing.JPanel {
     public Form1() {
         initComponents();
         setOpaque(false);
-        gaugeChart1.setValueWithAnimation(75);
+
         gaugeChart2.setValueWithAnimation(90);
         gaugeChart3.setValueWithAnimation(45);
 
@@ -231,16 +247,13 @@ public class Form1 extends javax.swing.JPanel {
 
         panelShadow1 = new com.raven.swing.PanelShadow();
         gaugeChart1 = new com.raven.chart.GaugeChart();
+        jLabel9 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         consola = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         panelShadow2 = new com.raven.swing.PanelShadow();
         gaugeChart2 = new com.raven.chart.GaugeChart();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         panelShadow3 = new com.raven.swing.PanelShadow();
@@ -266,19 +279,24 @@ public class Form1 extends javax.swing.JPanel {
         gaugeChart1.setColor2(new java.awt.Color(69, 71, 252));
         gaugeChart1.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
 
+        jLabel9.setFont(new java.awt.Font("sansserif", 1, 8)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(133, 133, 133));
+        jLabel9.setText("Porcentaje con respecto al maximo");
+        jLabel9.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
+
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(97, 97, 97));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Distancia");
 
-        consola.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        consola.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
         consola.setForeground(new java.awt.Color(80, 116, 253));
         consola.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         consola.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel7.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(133, 133, 133));
-        jLabel7.setText("Centimetros");
+        jLabel7.setText("                        Cm ");
         jLabel7.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         javax.swing.GroupLayout panelShadow1Layout = new javax.swing.GroupLayout(panelShadow1);
@@ -292,23 +310,27 @@ public class Form1 extends javax.swing.JPanel {
                     .addComponent(gaugeChart1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelShadow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelShadow1Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addGap(0, 51, Short.MAX_VALUE))
-                    .addComponent(consola, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(panelShadow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(consola)
+                            .addComponent(jLabel9))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelShadow1Layout.setVerticalGroup(
             panelShadow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelShadow1Layout.createSequentialGroup()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(7, 7, 7)
                 .addGroup(panelShadow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelShadow1Layout.createSequentialGroup()
-                        .addComponent(consola)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7)
-                        .addGap(20, 20, 20))
+                        .addGroup(panelShadow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(consola, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel9)
+                        .addGap(6, 6, 6))
                     .addComponent(gaugeChart1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -322,39 +344,17 @@ public class Form1 extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(97, 97, 97));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Tiempo");
-
-        jLabel9.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(133, 133, 133));
-        jLabel9.setText("September");
-        jLabel9.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
-
-        jLabel10.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(133, 133, 133));
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel10.setText("$ 8,150");
-        jLabel10.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
-
-        jLabel11.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(133, 133, 133));
-        jLabel11.setText("October");
-        jLabel11.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
-
-        jLabel12.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(133, 133, 133));
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel12.setText("$ 5,205");
-        jLabel12.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
+        jLabel8.setText("Frecuencia");
 
         jLabel13.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(150, 56, 248));
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel13.setText("$ 6,700");
+        jLabel13.setForeground(new java.awt.Color(133, 133, 133));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel13.setText("                   Hz           ");
         jLabel13.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
-        jLabel14.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(133, 133, 133));
-        jLabel14.setText("November");
+        jLabel14.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(150, 56, 248));
+        jLabel14.setText("0.05");
         jLabel14.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         javax.swing.GroupLayout panelShadow2Layout = new javax.swing.GroupLayout(panelShadow2);
@@ -369,38 +369,24 @@ public class Form1 extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelShadow2Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel10))
+                        .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(71, 71, 71))
                     .addGroup(panelShadow2Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel12))
-                    .addGroup(panelShadow2Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel13)))
-                .addContainerGap())
+                        .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         panelShadow2Layout.setVerticalGroup(
             panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelShadow2Layout.createSequentialGroup()
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(gaugeChart2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelShadow2Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
                         .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel10))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel12))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel13)))
-                    .addComponent(gaugeChart2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 11, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -525,12 +511,12 @@ public class Form1 extends javax.swing.JPanel {
 
         jLabel22.setFont(new java.awt.Font("sansserif", 1, 15)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(56, 56, 56));
-        jLabel22.setText("Gráfica en tiempo real Distancia vs Tiempo");
+        jLabel22.setText("Gráfica Distancia vs Tiempo");
         jLabel22.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
 
         jLabel23.setFont(new java.awt.Font("sansserif", 1, 15)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(241, 241, 241));
-        jLabel23.setText("Data Report");
+        jLabel23.setText("Datos captados en tiempo real");
         jLabel23.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
 
         panelShadow5.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -563,7 +549,7 @@ public class Form1 extends javax.swing.JPanel {
 
         jLabel24.setFont(new java.awt.Font("sansserif", 1, 15)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(56, 56, 56));
-        jLabel24.setText("Bar Chart");
+        jLabel24.setText("Grafica Senoidal");
         jLabel24.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 10, 1, 1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -615,9 +601,6 @@ public class Form1 extends javax.swing.JPanel {
     private com.raven.chart.GaugeChart gaugeChart3;
     private javax.swing.JPanel gsen;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
