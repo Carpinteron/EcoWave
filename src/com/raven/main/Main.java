@@ -9,10 +9,12 @@ import com.raven.swing.scrollbar.ScrollBarCustom;
 import java.awt.Color;
 import java.awt.Component;
 import javax.sound.sampled.Clip;
+import javax.swing.ImageIcon;
 
 public class Main extends javax.swing.JFrame {
 
     public Main() {
+        setIconImage(new ImageIcon(getClass().getResource("/Imagenes/logoazul.png")).getImage());
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         EventMenu eventMenu = new EventMenu() {
