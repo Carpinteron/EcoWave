@@ -32,7 +32,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 public class Form1 extends javax.swing.JPanel {
- private Form1 sonidoManager; // Campo para almacenar la referencia
+
+    private Form1 sonidoManager; // Campo para almacenar la referencia
 
     // Variables
     static JFreeChart chart;
@@ -67,13 +68,13 @@ public class Form1 extends javax.swing.JPanel {
         }
 
     };
-    
+
     //SUBRUTINAS PARA APLICAR SONIDO
     public static Clip clip;
-    public static boolean sali=false;
+    public static boolean sali = false;
 
     public void reproducirSonido(String cadena) {
-        
+
         try {
             clip = AudioSystem.getClip();
             URL url = getClass().getResource(cadena);
@@ -83,10 +84,8 @@ public class Form1 extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    
-    }
 
-    
+    }
 
     //METODOS
     private void ReiniciarHilo() {
@@ -110,9 +109,9 @@ public class Form1 extends javax.swing.JPanel {
     }
     XYSeries dataset = new XYSeries("Registros Distancias EcoWave");
 // Nuevos parámetros para la segunda función seno
-    double amplitud = 5.0;  // Cambia el valor según tus necesidades
-    double frecuenciaAngular = 0.05;  // Cambia el valor según tus necesidades
-    double anguloDeFase = 0.0;
+    double amplitud = 1.0;  // Cambia el valor según tus necesidades
+    double frecuenciaAngular = 11.93;  // Cambia el valor según tus necesidades
+    double anguloDeFase = 0.0;//Math.PI / 2  π/2
     XYSeries dataset2 = new XYSeries("Registros Onda Senoidal ");
 
     private void crearGraficas() {
@@ -124,29 +123,30 @@ public class Form1 extends javax.swing.JPanel {
                     double DISTANCIAOK = Double.parseDouble(lecturas[lecturas.length - 1]);
                     dataset.add(cont, DISTANCIAOK);
                     double distancia = amplitud * Math.sin(frecuenciaAngular * cont + anguloDeFase);
-                    System.out.println("distncia seno: "+distancia);
+                    System.out.println("distncia seno: " + distancia);
                     dataset2.add(cont, distancia);
                     cont++;
                     //porcentaje 1
-                    double minimo = 18;
-                    double maximo = 20;
+                    double valorMaximo = 22.76;
+                    double valorMinimo = 21.1;
                     double DISTANCIAOK2 = DISTANCIAOK;
                     // Asegurémonos de que el valor esté dentro del rango
-                    if (DISTANCIAOK2 < minimo) {
-                        DISTANCIAOK2 = minimo;
-                    } else if (DISTANCIAOK2 > maximo) {
-                        DISTANCIAOK2 = maximo;
+                    if (DISTANCIAOK2 < valorMinimo) {
+                        DISTANCIAOK2 = valorMinimo;
+                    } else if (DISTANCIAOK2 > valorMaximo) {
+                        DISTANCIAOK2 = valorMaximo;
                     }
+                    
+                    double porcentaje = ((valorMaximo - DISTANCIAOK2) / (valorMaximo - valorMinimo)) * 100;
 
                     // Calcula el porcentaje
-                    double porcentaje = ((DISTANCIAOK2 - minimo) / (maximo - minimo)) * 100.0;
                     int valorInt = (int) Math.round(porcentaje);
                     gaugeChart1.setValueWithAnimation(valorInt);
-                    if (valorInt>90 && valorInt<=100 && sali==false){
+                    if (valorInt > 90 && valorInt <= 100 && sali == false) {
                         reproducirSonido("/Sonido/buzzer.wav");
                         consola.setForeground(Color.RED);//AQUI DEBEN IR LAS 8 LEDS
-                    }else{
-                        consola.setForeground(new Color (80,116,253));
+                    } else {
+                        consola.setForeground(new Color(80, 116, 253));
                     }
 
                 }
@@ -202,8 +202,8 @@ public class Form1 extends javax.swing.JPanel {
         // Obtén el rango del eje Y del gráfico
         ValueAxis rangeAxis = chart2.getXYPlot().getRangeAxis();
 
-// Configura el rango del eje Y de 0 a 10
-        rangeAxis.setRange(-6.0, 6.0);
+// Configura el rango del eje Y de 0 a 2
+        rangeAxis.setRange(-2.0, 2.0);
         panel2 = new ChartPanel(chart2, true, true, true, false, true);
         panel2.setPreferredSize(new java.awt.Dimension(433, 971));
         gsen.setLayout(null);
@@ -219,23 +219,24 @@ public class Form1 extends javax.swing.JPanel {
     }
 
     private void DatosinSensor() {
-        // Crear un temporizador para generar datos cada segundo
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                // Generar un número aleatorio en el rango de 20 a 22
-                double randomValue = 18 + new Random().nextDouble() * 2;
+    // Crear un temporizador para generar datos cada segundo
+    Timer timer = new Timer();
+    timer.scheduleAtFixedRate(new TimerTask() {
+        @Override
+        public void run() {
+            // Generar un número aleatorio en el rango de 21 a 22.75
+            double randomValue = 21.1 + new Random().nextDouble() * 1.76;
 
-                // Formatear el número como "20.22" usando el formato con punto decimal
-                DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
-                DecimalFormat df = new DecimalFormat("0.00", decimalFormatSymbols);
-                String sensorData = df.format(randomValue);
-                System.out.println(sensorData);
-                consola.setText("\n" + sensorData);
-            }
-        }, 0, 1000); // Generar datos cada segundo (1000 milisegundos)
-    }
+            // Formatear el número como "20.22" usando el formato con punto decimal
+            DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols(Locale.US);
+            DecimalFormat df = new DecimalFormat("0.00", decimalFormatSymbols);
+            String sensorData = df.format(randomValue);
+            System.out.println(sensorData);
+            consola.setText("\n" + sensorData);
+        }
+    }, 0, 1000); // Generar datos cada segundo (1000 milisegundos)
+}
+
 
     /**
      * OPCIONAL BOTON GRAFICAR: btnGraficar.setEnabled(false);
@@ -250,25 +251,24 @@ public class Form1 extends javax.swing.JPanel {
      * btnPausa.setEnabled(true);
      */
     public Form1() {
-        
+
         initComponents();
         setOpaque(false);
 
-
         init();
         //Activamos el llamado para recibir datos del arduino
-        
-         try { ino.arduinoRXTX("COM6", 9600, listener); } catch
-         (ArduinoExcepcion ex) {
-         Logger.getLogger(Form1.class.getName()).log(Level.SEVERE, null, ex);
-          }
-         
-         
+        /**
+        try {
+            ino.arduinoRXTX("COM6", 9600, listener);
+        } catch (ArduinoExcepcion ex) {
+            Logger.getLogger(Form1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        * **/
 
     }
 
     private void init() {
-        //DatosinSensor();
+        DatosinSensor();
         On = true;
         ReiniciarHilo();
         hilo.start();
@@ -327,7 +327,7 @@ public class Form1 extends javax.swing.JPanel {
 
         jLabel9.setFont(new java.awt.Font("sansserif", 1, 10)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(133, 133, 133));
-        jLabel9.setText("% con respecto a la distancia máxima");
+        jLabel9.setText("% con respecto a la amplitud              ");
         jLabel9.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
@@ -391,12 +391,12 @@ public class Form1 extends javax.swing.JPanel {
         jLabel13.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(133, 133, 133));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel13.setText("                   Hz           ");
+        jLabel13.setText("               Hz               ");
         jLabel13.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel14.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(204, 51, 255));
-        jLabel14.setText("0.05");
+        jLabel14.setText("1.9");
         jLabel14.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/frecuencia.png"))); // NOI18N
@@ -517,7 +517,7 @@ public class Form1 extends javax.swing.JPanel {
         labelñe.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
         labelñe.setForeground(new java.awt.Color(0, 204, 102));
         labelñe.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        labelñe.setText("  5.0");
+        labelñe.setText("  1.0");
         labelñe.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel25.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
@@ -576,12 +576,12 @@ public class Form1 extends javax.swing.JPanel {
         jLabel27.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel27.setForeground(new java.awt.Color(133, 133, 133));
         jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel27.setText("                   Rad/Seg           ");
+        jLabel27.setText("                       Rad/Seg        ");
         jLabel27.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel28.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(102, 0, 102));
-        jLabel28.setText("0.05");
+        jLabel28.setText("11.93");
         jLabel28.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/angular.png"))); // NOI18N
@@ -634,12 +634,12 @@ public class Form1 extends javax.swing.JPanel {
         jLabel36.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel36.setForeground(new java.awt.Color(133, 133, 133));
         jLabel36.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel36.setText("                        Seg");
+        jLabel36.setText("                   Seg     ");
         jLabel36.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel37.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
         jLabel37.setForeground(new java.awt.Color(255, 51, 204));
-        jLabel37.setText("24,56");
+        jLabel37.setText("0,53");
         jLabel37.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/periodo.png"))); // NOI18N
@@ -689,12 +689,12 @@ public class Form1 extends javax.swing.JPanel {
         jLabel34.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel34.setForeground(new java.awt.Color(133, 133, 133));
         jLabel34.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel34.setText("                 Rad");
+        jLabel34.setText("                   Rad");
         jLabel34.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel35.setFont(new java.awt.Font("sansserif", 1, 36)); // NOI18N
         jLabel35.setForeground(new java.awt.Color(255, 102, 51));
-        jLabel35.setText(" 0.0");
+        jLabel35.setText("  0.0");
         jLabel35.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 3));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/raven/icon/angulo.png"))); // NOI18N

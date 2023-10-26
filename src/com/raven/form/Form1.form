@@ -169,7 +169,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="85" green="85" red="85" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="% con respecto a la distancia m&#xe1;xima"/>
+            <Property name="text" type="java.lang.String" value="% con respecto a la amplitud              "/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="3" left="3" right="3" top="3"/>
@@ -305,7 +305,7 @@
               <Color blue="85" green="85" red="85" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="2"/>
-            <Property name="text" type="java.lang.String" value="                   Hz           "/>
+            <Property name="text" type="java.lang.String" value="               Hz               "/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="3" left="3" right="3" top="3"/>
@@ -321,7 +321,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="33" red="cc" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="0.05"/>
+            <Property name="text" type="java.lang.String" value="1.9"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="3" left="3" right="3" top="3"/>
@@ -565,7 +565,7 @@
               <Color blue="66" green="cc" red="0" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="2"/>
-            <Property name="text" type="java.lang.String" value="  5.0"/>
+            <Property name="text" type="java.lang.String" value="  1.0"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="3" left="3" right="3" top="3"/>
@@ -680,7 +680,7 @@
               <Color blue="85" green="85" red="85" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="2"/>
-            <Property name="text" type="java.lang.String" value="                   Rad/Seg           "/>
+            <Property name="text" type="java.lang.String" value="                       Rad/Seg        "/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="3" left="3" right="3" top="3"/>
@@ -696,7 +696,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="0" red="66" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="0.05"/>
+            <Property name="text" type="java.lang.String" value="11.93"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="3" left="3" right="3" top="3"/>
@@ -788,7 +788,7 @@
               <Color blue="85" green="85" red="85" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="2"/>
-            <Property name="text" type="java.lang.String" value="                        Seg"/>
+            <Property name="text" type="java.lang.String" value="                   Seg     "/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="3" left="3" right="3" top="3"/>
@@ -804,7 +804,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="33" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="24,56"/>
+            <Property name="text" type="java.lang.String" value="0,53"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="3" left="3" right="3" top="3"/>
@@ -898,7 +898,7 @@
               <Color blue="85" green="85" red="85" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="2"/>
-            <Property name="text" type="java.lang.String" value="                 Rad"/>
+            <Property name="text" type="java.lang.String" value="                   Rad"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="3" left="3" right="3" top="3"/>
@@ -914,7 +914,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="66" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value=" 0.0"/>
+            <Property name="text" type="java.lang.String" value="  0.0"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="3" left="3" right="3" top="3"/>

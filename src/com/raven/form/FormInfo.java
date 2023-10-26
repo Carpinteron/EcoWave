@@ -33,8 +33,8 @@ public class FormInfo extends javax.swing.JPanel {
     public FormInfo() {
         initComponents();
         setOpaque(false);
-        // Crea un temporizador para actualizar las frases cada 45 segundos
-        Timer timer = new Timer(10000, new ActionListener() {
+        // Crea un temporizador para actualizar las frases cada 6 segundos
+        Timer timer = new Timer(6000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 updateFrase();
