@@ -135,7 +135,7 @@ public class FormInfo extends javax.swing.JPanel {
 
         panelShadow4.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Las ondas son perturbaciones que se propagan a través del espacio o un medio. Pueden tomar muchas formas y se clasifican en diferentes tipos según sus propiedades. Aquí tienes una breve descripció.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/imagen1.png"))); // NOI18N
 
         javax.swing.GroupLayout panelShadow4Layout = new javax.swing.GroupLayout(panelShadow4);
         panelShadow4.setLayout(panelShadow4Layout);
@@ -145,7 +145,7 @@ public class FormInfo extends javax.swing.JPanel {
         );
         panelShadow4Layout.setVerticalGroup(
             panelShadow4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
         );
 
         jLabel23.setFont(new java.awt.Font("sansserif", 1, 15)); // NOI18N
@@ -155,7 +155,7 @@ public class FormInfo extends javax.swing.JPanel {
 
         panelShadow5.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Una onda se compone de las siguientes partes Cresta. Es el punto máximo en la ondulación. Valle. Es el punto más bajo de una onda (lo contrario de la cresta). Período. Es el tiempo que demora la o (1).png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/imagen2.png"))); // NOI18N
 
         javax.swing.GroupLayout panelShadow5Layout = new javax.swing.GroupLayout(panelShadow5);
         panelShadow5.setLayout(panelShadow5Layout);
@@ -165,7 +165,7 @@ public class FormInfo extends javax.swing.JPanel {
         );
         panelShadow5Layout.setVerticalGroup(
             panelShadow5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -182,10 +182,8 @@ public class FormInfo extends javax.swing.JPanel {
                                 .addGap(6, 6, 6)
                                 .addComponent(jLabel23)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(panelShadow4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(panelShadow5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(panelShadow4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelShadow5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
@@ -201,7 +199,7 @@ public class FormInfo extends javax.swing.JPanel {
                 .addComponent(jLabel22)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelShadow4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel23)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelShadow5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))

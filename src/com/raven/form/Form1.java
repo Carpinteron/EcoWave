@@ -143,7 +143,7 @@ public class Form1 extends javax.swing.JPanel {
                     int valorInt = (int) Math.round(porcentaje);
                     gaugeChart1.setValueWithAnimation(valorInt);
                     if (valorInt > 90 && valorInt <= 100 && sali == false) {
-                        reproducirSonido("/Sonido/buzzer.wav");
+                        //reproducirSonido("/Sonido/buzzer.wav");
                         consola.setForeground(Color.RED);//AQUI DEBEN IR LAS 8 LEDS
                     } else {
                         consola.setForeground(new Color(80, 116, 253));
@@ -257,18 +257,17 @@ public class Form1 extends javax.swing.JPanel {
 
         init();
         //Activamos el llamado para recibir datos del arduino
-        /**
+        
         try {
-            ino.arduinoRXTX("COM6", 9600, listener);
+            ino.arduinoRXTX("COM3", 9600, listener);
         } catch (ArduinoExcepcion ex) {
             Logger.getLogger(Form1.class.getName()).log(Level.SEVERE, null, ex);
         }
-        * **/
 
     }
 
     private void init() {
-        DatosinSensor();
+        //DatosinSensor();
         On = true;
         ReiniciarHilo();
         hilo.start();
